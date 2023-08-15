@@ -9,48 +9,121 @@
 </head>
 
 <body>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <div class="calculator">
-                    <input type="text" id="display" class="form-control mb-2" readonly>
-                    <div class="row">
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">7</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">8</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">9</button></div>
-                        <div class="col"><button class="btn btn-warning btn-block calculator-btn">/</button></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">4</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">5</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">6</button></div>
-                        <div class="col"><button class="btn btn-warning btn-block calculator-btn">*</button></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">1</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">2</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">3</button></div>
-                        <div class="col"><button class="btn btn-warning btn-block calculator-btn">-</button></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">0</button></div>
-                        <div class="col"><button class="btn btn-light btn-block calculator-btn">.</button></div>
-                        <div class="col"><button class="btn btn-success btn-block calculator-btn" id="equals">=</button>
+                <div class="card">
+                    <div class="card-header text-center">Calculator</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input type="text" id="result" class="form-control text-right" readonly>
                         </div>
-                        <div class="col"><button class="btn btn-warning btn-block calculator-btn">+</button></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><button class="btn btn-danger btn-block calculator-btn" id="clear">C</button>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" onclick="clearResult()">C</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" onclick="appendToResult('/')">/</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" onclick="appendToResult('*')">x</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-danger btn-block" onclick="calculateResult()">=</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('7')">7</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('8')">8</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('9')">9</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" onclick="appendToResult('-')">-</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('4')">4</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('5')">5</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('6')">6</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" onclick="appendToResult('+')">+</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('1')">1</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('2')">2</button>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('3')">3</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('0')">0</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-block" onclick="appendToResult('.')">.</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-secondary btn-block" onclick="backspace()">←</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="calculator.js"></script>
+    <script>
+        let result = '';
+
+        function appendToResult(value) {
+            result += value;
+            updateResult();
+        }
+
+        function clearResult() {
+            result = '';
+            updateResult();
+        }
+
+        function calculateResult() {
+            try {
+                result = eval(result).toString();
+            } catch (error) {
+                result = 'Error';
+            }
+            updateResult();
+        }
+
+        function backspace() {
+            result = result.slice(0, -1);
+            updateResult();
+        }
+
+        function updateResult() {
+            $('#result').val(result);
+        }
+    </script>
+
 </body>
 
 </html>
